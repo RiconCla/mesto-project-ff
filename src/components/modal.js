@@ -1,12 +1,10 @@
 
-export {openModal, closeModal, checkClickOnOverlay, checkClickEscape, imageModal}
-import {modals, modalImagePicture, modalImageDescription, modalImageCard} from '../index.js'
+export { openModal, closeModal, setupClickOnOverlay, checkClickEscape }
 
 // @todo: Функция открытия модального окна
  function openModal (modal){
   modal.classList.add('popup_is-opened');
   document.addEventListener('keydown',checkClickEscape);
-  checkClickOnOverlay(modal);
 }
 
 // @todo: Функция закрытие модального окна
@@ -16,7 +14,7 @@ function closeModal (modal){
 }
 
 //Функция проверки клика вне попапа
-function checkClickOnOverlay (modal) {
+function setupClickOnOverlay (modal) {
   modal.addEventListener('mousedown',(evt)=> {
     if (evt.currentTarget == evt.target){
       closeModal(evt.currentTarget);
@@ -24,19 +22,10 @@ function checkClickOnOverlay (modal) {
   });
 }
 
-//Функция для заккрытия попапов по Escape
+//Функция для закрытия попапов по Escape
 function checkClickEscape(evt) {
   if(evt.key === 'Escape') {
-    const popupOpened =  Array.from(modals).find(item => item.classList.contains('popup_is-opened'))
+    const popupOpened = document.querySelector('.popup_is-opened');
     closeModal(popupOpened);
   }
-}
-
-//Функция открытия карточки
-function imageModal (description, image){
-  modalImageDescription.textContent = description;
-  modalImagePicture.src = image;
-  modalImagePicture.alt = description;
-  openModal(modalImageCard);
-  checkClickOnOverlay(modalImageCard);
 }

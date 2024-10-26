@@ -1,22 +1,23 @@
 import './styles/index.css';
-import { initialCards, addCard, cardDelete, cardLike } from './components/cards.js'
-import { openModal, closeModal, checkClickOnOverlay, checkClickEscape, imageModal} from './components/modal.js'
+import { initialCards } from './components/cards.js'
+import { addCard, cardDelete, cardLike } from './components/card.js'
+import { openModal, closeModal, setupClickOnOverlay } from './components/modal.js'
 
 
 // @todo: DOM узлы
 const placesList = document.querySelector('.places__list');
 //Находим все попапы
-export const modals = document.querySelectorAll('.popup');
+const modals = document.querySelectorAll('.popup');
 //Попап профиля
 const modalProfile = document.querySelector('.popup_type_edit');
 //Попап нового места
 const modalNewCard = document.querySelector('.popup_type_new-card');
 //Попап открытой карточки
-export const modalImageCard = document.querySelector('.popup_type_image');
+const modalImageCard = document.querySelector('.popup_type_image');
 //Находим элемент с изображением(Попап открытой карточки)
-export const modalImagePicture = modalImageCard.querySelector('.popup__image');
+const modalImagePicture = modalImageCard.querySelector('.popup__image');
 //Находим элемент с описанием карточки(Попап открытой карточки)
-export const modalImageDescription = modalImageCard.querySelector('.popup__caption');
+const modalImageDescription = modalImageCard.querySelector('.popup__caption');
 
 //Форма редактирования профиля
 const formEditProfile = document.forms['edit-profile']
@@ -54,9 +55,10 @@ function handlerEditProfile(evt){
 //функция отправки формы "Новое место"
 function handlerAddNewCard(evt) {
   evt.preventDefault();
-  const newCard = {};
-  newCard.name = formNewCardInputName.value;
-  newCard.link = formNewCardInputLink.value;
+  const newCard = {
+    name:formNewCardInputName.value,
+    link:formNewCardInputLink.value
+  };
   renderNewCard(newCard);
   closeModal(modalNewCard);
   formNewCard.reset();
@@ -64,7 +66,7 @@ function handlerAddNewCard(evt) {
 
 //функция добавления нового места (из формы) в начало списка
 function renderNewCard(card) {
-  placesList.prepend(addCard(card, cardDelete, cardLike, imageModal));
+  placesList.prepend(addCard(card, cardDelete, cardLike, openImageModal));
 }
 
 //Слушатель на форму редактирования профиля
@@ -86,25 +88,30 @@ profileEditButton.addEventListener('click',() => {
 });
 
 //Функция для инициализации слушателей для кнопок "крестик"
-const addListenerModalDeleteButtons = (modal) => {
+const addListenerModalDeleteButton = (modal) => {
   const button = modal.querySelector('.popup__close');
   button.addEventListener('click',() => {
     closeModal(modal);
   });
 }
 
+//Функция открытия карточки
+function openImageModal (description, image){
+  modalImageDescription.textContent = description;
+  modalImagePicture.src = image;
+  modalImagePicture.alt = description;
+  openModal(modalImageCard);
+}
+
 //Вывод карточек на страницу из объекта
 initialCards.forEach((item) => {
-  const card = addCard(item, cardDelete, cardLike, imageModal);
+  const card = addCard(item, cardDelete, cardLike, openImageModal);
   placesList.append(card);
 });
 
-//Каждому попапу добавляем класс плавной анимации
-Array.from(modals).forEach(item => item.classList.add('popup_is-animated'));
-
-//Вешаем обработчики на кнопки закрытия внутри попапов
-addListenerModalDeleteButtons(modalProfile);
-addListenerModalDeleteButtons(modalNewCard);
-addListenerModalDeleteButtons(modalImageCard);
-
-
+//Каждому попапу добавляем класс плавной анимации и вещаем обработчики на кнопки закрытия внутри попапов
+modals.forEach((item) => {
+  item.classList.add('popup_is-animated');
+  addListenerModalDeleteButton(item);
+  setupClickOnOverlay(item);
+});
