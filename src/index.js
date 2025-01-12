@@ -1,5 +1,4 @@
 import './styles/index.css';
-// import { initialCards } from './components/cards.js'
 import { getInitialCards, getUserInfo, updateUserInfo, postNewCard, deleteCard, addLike, unLike, updateAvatar} from './components/api.js'
 import { addCard, checkedStatusLike, updateStateCounterandLike} from './components/card.js'
 import { openModal, closeModal, setupClickOnOverlay } from './components/modal.js'
