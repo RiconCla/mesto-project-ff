@@ -3,6 +3,11 @@
   color: #f00;
   font-size: 12px;
   font-weight: 400;
-  line-height: 0.8;
+  line-height: 1;
   transition: opacity .2s ease;
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  width: 100%;
 }
+
