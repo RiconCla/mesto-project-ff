@@ -1,6 +1,3 @@
-
-export { openModal, closeModal, setupClickOnOverlay, checkClickEscape }
-
 // @todo: Функция открытия модального окна
  function openModal (modal){
   modal.classList.add('popup_is-opened');
@@ -29,3 +26,5 @@ function checkClickEscape(evt) {
     closeModal(popupOpened);
   }
 }
+
+export { openModal, closeModal, setupClickOnOverlay, checkClickEscape }
