@@ -81,6 +81,14 @@ const profileAvatar = document.querySelector(".profile__image");
 //Форма удаления карточки
 const formDeleteCard = document.forms["delete-card"];
 
+//Функция открытия карточки
+function openImageModal(description, image) {
+  modalImageDescription.textContent = description;
+  modalImagePicture.src = image;
+  modalImagePicture.alt = description;
+  openModal(modalImageCard);
+}
+
 //функция отправки формы "профиль"
 function handlerEditProfile(evt) {
   evt.preventDefault();
@@ -230,14 +238,6 @@ const addListenerModalDeleteButton = (modal) => {
     closeModal(modal);
   });
 };
-
-//Функция открытия карточки
-function openImageModal(description, image) {
-  modalImageDescription.textContent = description;
-  modalImagePicture.src = image;
-  modalImagePicture.alt = description;
-  openModal(modalImageCard);
-}
 
 //Каждому попапу добавляем класс плавной анимации и вещаем обработчики на кнопки закрытия внутри попапов
 modals.forEach((item) => {

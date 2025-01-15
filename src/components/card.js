@@ -5,7 +5,7 @@ export function addCard({
   card,
   setDeleteConfirmation,
   handlerСardLike,
-  handlerImagePopup,
+  openImageModal,
   myUserId,
   modalDeleteCard
 }) {
@@ -24,7 +24,7 @@ export function addCard({
 
   //обработчик открытия модалки изображения
   cardImage.addEventListener("click", () =>
-    handlerImagePopup(card.name, card.link)
+    openImageModal(card.name, card.link)
   );
 
   //Находим кнопку удаления
